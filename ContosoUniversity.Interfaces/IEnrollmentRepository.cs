@@ -9,6 +9,6 @@ namespace ContosoUniversity.Interfaces
 {
     public interface IEnrollmentRepository
     {
-        IEnumerable<EnrollmentDateGroup> GetLatestEnrollments(int count);
+        IEnumerable<EnrollmentDateGroup> GetEnrollments();
     }
 }

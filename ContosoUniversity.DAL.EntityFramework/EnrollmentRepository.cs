@@ -15,13 +15,13 @@ namespace ContosoUniversity.DAL.EntityFramework
         {
 
         }
-        public IEnumerable<EnrollmentDateGroup> GetLatestEnrollments(int count)
+        public IEnumerable<EnrollmentDateGroup> GetEnrollments()
         {
             string query = "SELECT EnrollmentDate, COUNT(*) AS StudentCount "
                 + "FROM Person "
                 + "WHERE Discriminator = 'Student' "
                 + "GROUP BY EnrollmentDate";
-            return SchoolContext.Database.SqlQuery<EnrollmentDateGroup>(query).Take(count);
+            return SchoolContext.Database.SqlQuery<EnrollmentDateGroup>(query);
         }
     }
 }

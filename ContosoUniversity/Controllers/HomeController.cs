@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using ContosoUniversity.Interfaces;
 using ContosoUniversity.ViewModels;
 
@@ -12,9 +11,12 @@ namespace ContosoUniversity.Controllers
     public class HomeController : Controller
     {
         IUnitOfWork _uow;
-        public HomeController(IUnitOfWork uow)
+        IMapper _mapper;
+
+        public HomeController(IUnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
+            _mapper = mapper;
         }
 
         public ActionResult Index()
@@ -24,17 +26,13 @@ namespace ContosoUniversity.Controllers
 
         public ActionResult About()
         {
-            var domainData = _uow.EnrollmentRepository.GetLatestEnrollments(10);
+            var enrollmentData = _uow.EnrollmentRepository.GetEnrollments();
 
-            var data = from enrollment in domainData
-                       select new EnrollmentDateGroup
-                       {
-                           EnrollmentDate = enrollment.EnrollmentDate,
-                           StudentCount = enrollment.StudentCount
-                       };
+            var data = _mapper.Map<IEnumerable<EnrollmentDateGroup>>(enrollmentData);
 
-            return View(data.ToList());
+            return View(data);
         }
+
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

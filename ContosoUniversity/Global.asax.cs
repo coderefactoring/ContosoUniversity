@@ -21,6 +21,7 @@ namespace ContosoUniversity
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             DbInterception.Add(new SchoolInterceptorTransientErrors());
             DbInterception.Add(new SchoolInterceptorLogging());
+            AutoMapperConfig.RegisterMappings(UnityConfig.Container);
         }
     }
 }
