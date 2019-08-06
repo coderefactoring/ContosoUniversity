@@ -43,9 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssignedCourseData.cs" />
-    <Compile Include="EnrollmentDateGroup.cs" />
+    <Compile Include="EnrollmentDateGroupVM.cs" />
     <Compile Include="InstructorIndexData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StudentVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ContosoUniversity.Domain\ContosoUniversity.Domain.csproj">

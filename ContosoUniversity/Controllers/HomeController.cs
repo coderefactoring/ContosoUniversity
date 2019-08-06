@@ -26,9 +26,9 @@ namespace ContosoUniversity.Controllers
 
         public ActionResult About()
         {
-            var enrollmentData = _uow.EnrollmentRepository.GetEnrollments();
+            var enrollmentData = _uow.Enrollments.GetEnrollments();
 
-            var data = _mapper.Map<IEnumerable<EnrollmentDateGroup>>(enrollmentData);
+            var data = _mapper.Map<IEnumerable<EnrollmentDateGroupVM>>(enrollmentData);
 
             return View(data);
         }
