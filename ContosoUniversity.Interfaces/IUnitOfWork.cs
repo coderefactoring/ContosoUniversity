@@ -8,8 +8,8 @@ namespace ContosoUniversity.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IEnrollmentRepository EnrollmentRepository { get; }
-
+        IEnrollmentRepository Enrollments { get; }
+        IStudentRepository Students { get; }
         void Complete();
     }
 }

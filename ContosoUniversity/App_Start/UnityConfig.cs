@@ -40,7 +40,9 @@ namespace ContosoUniversity
         {
             container.RegisterType<IUnitOfWork, UnitOfWork>();
             container.RegisterType<IEnrollmentRepository, EnrollmentRepository>();
+            container.RegisterType<IStudentRepository, StudentRepository>();
             container.RegisterType<IRepository<Domain.EnrollmentDateGroup>, Repository<Domain.EnrollmentDateGroup>>();
+            container.RegisterType<IRepository<Domain.Student>, Repository<Domain.Student>>();
         }
     }
 }

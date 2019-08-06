@@ -13,7 +13,7 @@ namespace ContosoUniversity.Mapper
     {
         public EnrollmentDateGroupProfile()
         {
-            CreateMap<Domain.EnrollmentDateGroup, ViewModels.EnrollmentDateGroup>();
+            CreateMap<Domain.EnrollmentDateGroup, ViewModels.EnrollmentDateGroupVM>();
         }
     }
 }

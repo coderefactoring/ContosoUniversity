@@ -53,6 +53,7 @@
     <Compile Include="SchoolContext.cs" />
     <Compile Include="SchoolInterceptorLogging.cs" />
     <Compile Include="SchoolInterceptorTransientErrors.cs" />
+    <Compile Include="StudentRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

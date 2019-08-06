@@ -10,12 +10,14 @@ namespace ContosoUniversity.DAL.EntityFramework
     public class UnitOfWork : IUnitOfWork
     {
         readonly SchoolContext _context;
-        public IEnrollmentRepository EnrollmentRepository { get; private set; }
+        public IEnrollmentRepository Enrollments { get; private set; }
+        public IStudentRepository Students { get; private set; }
 
-        public UnitOfWork(SchoolContext context, IEnrollmentRepository enrollmentRepository)
+        public UnitOfWork(SchoolContext context, IEnrollmentRepository enrollments, IStudentRepository students)
         {
             _context = context;
-            EnrollmentRepository = enrollmentRepository;
+            Enrollments = enrollments;
+            Students = students;
         }
 
         public void Complete()

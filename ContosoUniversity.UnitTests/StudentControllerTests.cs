@@ -1,22 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
-using AutoMapper;
+﻿using AutoMapper;
 using ContosoUniversity.Controllers;
 using ContosoUniversity.Domain;
 using ContosoUniversity.Interfaces;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace ContosoUniversity.UnitTests
 {
-    [TestClass]
-    public class HomeControllerTests
+    class StudentControllerTests
     {
         [TestMethod]
-        public void AboutActionReturnsThreeEnrollmentDateGroup()
+        public void IndexActionReturnsThreeStudentVM()
         {
             // Arrange
             var enrollmentGroup = new List<EnrollmentDateGroup> {
@@ -47,11 +48,11 @@ namespace ContosoUniversity.UnitTests
                 .Returns(repositoryMock.Object);
 
             var expectedCount = enrollmentGroup.Count();
-            var controller = new HomeController(mockUnitOfWork.Object, mapperMock.Object);
+            var controller = new StudentController(mockUnitOfWork.Object);
 
             // Act
-            var result = controller.About() as ViewResult;
-            var model = result.Model as IEnumerable<ViewModels.EnrollmentDateGroupVM>;
+            var result = controller.Index(null, null, null, null) as ViewResult;
+            var model = result.Model as IEnumerable<ViewModels.StudentVM>;
             var actualCount = model.Count();
 
             // Assert
