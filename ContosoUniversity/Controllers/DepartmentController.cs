@@ -8,8 +8,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ContosoUniversity.DAL;
-using ContosoUniversity.Models;
+using ContosoUniversity.Domain;
 using System.Data.Entity.Infrastructure;
+using ContosoUniversity.DAL.EntityFramework;
 
 namespace ContosoUniversity.Controllers
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ContosoUniversity.DAL;
+using ContosoUniversity.Interfaces;
 using ContosoUniversity.ViewModels;
 
 
@@ -11,7 +11,11 @@ namespace ContosoUniversity.Controllers
 {
     public class HomeController : Controller
     {
-        private SchoolContext db = new SchoolContext();
+        IUnitOfWork _uow;
+        public HomeController(IUnitOfWork uow)
+        {
+            _uow = uow;
+        }
 
         public ActionResult Index()
         {
@@ -20,21 +24,14 @@ namespace ContosoUniversity.Controllers
 
         public ActionResult About()
         {
-            // Commenting out LINQ to show how to do the same thing in SQL.
-            //IQueryable<EnrollmentDateGroup> = from student in db.Students
-            //           group student by student.EnrollmentDate into dateGroup
-            //           select new EnrollmentDateGroup()
-            //           {
-            //               EnrollmentDate = dateGroup.Key,
-            //               StudentCount = dateGroup.Count()
-            //           };
+            var domainData = _uow.EnrollmentRepository.GetLatestEnrollments(10);
 
-            // SQL version of the above LINQ code.
-            string query = "SELECT EnrollmentDate, COUNT(*) AS StudentCount "
-                + "FROM Person "
-                + "WHERE Discriminator = 'Student' "
-                + "GROUP BY EnrollmentDate";
-            IEnumerable<EnrollmentDateGroup> data = db.Database.SqlQuery<EnrollmentDateGroup>(query);
+            var data = from enrollment in domainData
+                       select new EnrollmentDateGroup
+                       {
+                           EnrollmentDate = enrollment.EnrollmentDate,
+                           StudentCount = enrollment.StudentCount
+                       };
 
             return View(data.ToList());
         }
@@ -47,7 +44,7 @@ namespace ContosoUniversity.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            _uow.Dispose();
             base.Dispose(disposing);
         }
     }
