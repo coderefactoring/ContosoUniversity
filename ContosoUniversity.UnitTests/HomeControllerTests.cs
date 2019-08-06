@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using AutoMapper;
 using ContosoUniversity.Controllers;
 using ContosoUniversity.Domain;
 using ContosoUniversity.Interfaces;
@@ -19,18 +20,34 @@ namespace ContosoUniversity.UnitTests
         {
             // Arrange
             var enrollmentGroup = new List<EnrollmentDateGroup> {
-                new EnrollmentDateGroup { EnrollmentDate = DateTime.Now.AddYears(-5), StudentCount = 10 },
-                new EnrollmentDateGroup { EnrollmentDate = DateTime.Now.AddYears(-3), StudentCount = 20 },
-                new EnrollmentDateGroup { EnrollmentDate = DateTime.Now.AddYears(-1), StudentCount = 30 },
+                new EnrollmentDateGroup(),
+                new EnrollmentDateGroup(),
+                new EnrollmentDateGroup(),
             };
+
+            var enrollmentGroupVM = new List<ViewModels.EnrollmentDateGroup> {
+                new ViewModels.EnrollmentDateGroup(),
+                new ViewModels.EnrollmentDateGroup(),
+                new ViewModels.EnrollmentDateGroup(),
+            };
+
             Mock<IEnrollmentRepository> repositoryMock = new Mock<IEnrollmentRepository>();
-            repositoryMock.Setup(r => r.GetLatestEnrollments(It.IsAny<int>())).Returns(enrollmentGroup);
+            repositoryMock
+                .Setup(r => r.GetLatestEnrollments(It.IsAny<int>()))
+                .Returns(enrollmentGroup);
+
+            Mock<IMapper> mapperMock = new Mock<IMapper>();
+            mapperMock
+                .Setup(m => m.Map<IEnumerable<ViewModels.EnrollmentDateGroup>>(It.IsAny<IEnumerable<EnrollmentDateGroup>>()))
+                .Returns(enrollmentGroupVM);
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
-            mockUnitOfWork.Setup(uow => uow.EnrollmentRepository).Returns(repositoryMock.Object);
+            mockUnitOfWork
+                .Setup(uow => uow.EnrollmentRepository)
+                .Returns(repositoryMock.Object);
 
             var expectedCount = enrollmentGroup.Count();
-            var controller = new HomeController(mockUnitOfWork.Object);
+            var controller = new HomeController(mockUnitOfWork.Object, mapperMock.Object);
 
             // Act
             var result = controller.About() as ViewResult;
