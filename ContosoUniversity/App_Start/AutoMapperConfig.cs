@@ -12,6 +12,7 @@ namespace ContosoUniversity
         {
             var mce = new MapperConfigurationExpression();
             mce.AddProfile<EnrollmentDateGroupProfile>();
+            mce.AddProfile<StudentProfile>();
 
             var mc = new MapperConfiguration(mce);
             mc.AssertConfigurationIsValid();
