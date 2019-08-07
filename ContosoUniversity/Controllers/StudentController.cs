@@ -12,24 +12,29 @@ using PagedList;
 using System.Data.Entity.Infrastructure;
 using ContosoUniversity.DAL.EntityFramework;
 using ContosoUniversity.Interfaces;
+using AutoMapper;
+using ContosoUniversity.ViewModels;
+using System.Linq.Expressions;
 
 namespace ContosoUniversity.Controllers
 {
     public class StudentController : Controller
     {
         IUnitOfWork _uow;
+        IMapper _mapper;
 
-        public StudentController(IUnitOfWork uow)
+        public StudentController(IUnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
+            _mapper = mapper;
         }
 
         // GET: Student
-        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ViewResult Index(string searchString)
         {
-            var students = _uow.Students.GetAll();
+            var students = _uow.Students.Find(x => x.FirstMidName.Contains(searchString));
 
-            return View(students.ToPagedList(1,10));
+            return View(_mapper.Map<IEnumerable<StudentVM>>(students));
         }
 
 
